@@ -12,7 +12,7 @@ class KeyModel(models.Model):
     key_private = models.TextField()
     key_pass = models.CharField(max_length=256)
     key_public = models.TextField()
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     used = models.BooleanField(default=False)
 
 
@@ -32,7 +32,7 @@ class CSRModel(models.Model):
     content = models.TextField()
     days = models.IntegerField(default=730)
     role = models.CharField(max_length=10, default='user')
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     signed = models.BooleanField(default=False)
 
 
@@ -44,6 +44,7 @@ class CertificateModel(models.Model):
     serial = models.CharField(max_length=64)
     content_type = models.CharField(default='PEM', max_length=3)
     content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
     valid = models.BooleanField(default=True)
 
 

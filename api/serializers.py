@@ -15,3 +15,29 @@ class KeyDetialSerializer(serializers.ModelSerializer):
         model = KeyModel
         fields = ('id', 'asymmetric_alg', 'bits',
                   'key_pass', 'key_private', 'key_public', 'used')
+
+
+class CSRListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CSRModel
+        fields = ('id', 'common', 'country', 'province',
+                  'locality', 'organization', 'organizationunit', 'email', 'days', 'role')
+
+
+class CSRDetialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CSRModel
+        fields = ('id', 'common', 'country', 'province',
+                  'locality', 'organization', 'organizationunit', 'email', 'days', 'role', 'content', 'created')
+
+
+class CertListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CertificateModel
+        fields = ('id', 'serial', 'valid')
+
+
+class CertDetialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CertificateModel
+        fields = ('id', 'serial', 'content', 'created', 'valid')
