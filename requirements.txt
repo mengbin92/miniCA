@@ -1,0 +1,4 @@
+Django>=2.1
+djangorestframework>=3.9.2
+uWSGI>=2.0.18
+PyMySQL>=0.9.3
