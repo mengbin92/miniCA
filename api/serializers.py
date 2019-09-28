@@ -1,8 +1,25 @@
 from rest_framework import serializers
 from .models import KeyModel, CRLModel, CertificateModel, CSRModel
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+
+
+class UserDetialSerializer(serializers.ModelSerializer):
+
+    owner = serializers.ReadOnlyField()
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email')
 
 
 class KeyListSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = KeyModel
@@ -10,6 +27,7 @@ class KeyListSerializer(serializers.ModelSerializer):
 
 
 class KeyDetialSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = KeyModel
@@ -18,6 +36,8 @@ class KeyDetialSerializer(serializers.ModelSerializer):
 
 
 class CSRListSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = CSRModel
         fields = ('id', 'common', 'country', 'province',
@@ -25,6 +45,8 @@ class CSRListSerializer(serializers.ModelSerializer):
 
 
 class CSRDetialSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = CSRModel
         fields = ('id', 'common', 'country', 'province',
@@ -32,12 +54,16 @@ class CSRDetialSerializer(serializers.ModelSerializer):
 
 
 class CertListSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = CertificateModel
         fields = ('id', 'serial', 'valid')
 
 
 class CertDetialSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = CertificateModel
         fields = ('id', 'serial', 'content', 'created', 'valid')
