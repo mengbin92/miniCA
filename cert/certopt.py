@@ -6,9 +6,9 @@ from cryptography.hazmat.primitives.asymmetric import ec,rsa
 import datetime
 
 def generatekey(keytype,bits):
-    if keytype == 'rsa':
+    if keytype == 'rsa' or keytype == 'RSA':
         return rsa.generate_private_key(65537,bits,default_backend())
-    elif keytype == 'ec':
+    elif keytype == 'ec' or keytype == 'EC':
         return ec.generate_private_key(ec.SECP521R1(),default_backend())
 
 def createCSR(key,common,country,locality,province,organization,organizationunit,email):

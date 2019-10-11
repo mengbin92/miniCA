@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserDetialSerializer(serializers.ModelSerializer):
 
-    owner = serializers.ReadOnlyField()
+    #owner = serializers.ReadOnlyField()
 
     class Meta:
         model = User
@@ -23,7 +23,7 @@ class KeyListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = KeyModel
-        fields = ('id', 'asymmetric_alg', 'bits', 'key_pass')
+        fields = ('id', 'asymmetric', 'bits', 'key_pass')
 
 
 class KeyDetialSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class KeyDetialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = KeyModel
-        fields = ('id', 'asymmetric_alg', 'bits',
+        fields = ('id', 'asymmetric', 'bits',
                   'key_pass', 'key_private', 'key_public', 'used')
 
 

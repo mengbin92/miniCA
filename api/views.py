@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+
 from .serializers import KeyListSerializer, KeyDetialSerializer, CertDetialSerializer, CertListSerializer, CSRDetialSerializer, CSRListSerializer, UserSerializer, UserDetialSerializer
 from .models import KeyModel, CertificateModel, CRLModel, CSRModel
 from .permissions import IsOwnerOrReadOnly
@@ -9,6 +11,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework import generics
 
+from cert.certopt import generatekey
 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -39,6 +42,27 @@ class KeyList(generics.ListCreateAPIView):
     serializer_class = KeyListSerializer
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def post(self, request, format=None):
+        serializer = KeyListSerializer(data=request.data)
+        try:
+            user = User.objects.get(username=request.user)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        if serializer.is_valid():
+            asy = serializer['asymmetric'].value
+            bits = int(serializer['bits'].value)
+            key_pass = serializer['key_pass'].value
+
+            key = generatekey(asy,bits)
+
+            db_key = KeyModel()
+            db_key.owner = user
+            db_key.asymmetric = asy
+            db_key.bits = bits
+            db_key.key_pass = key_pass
+            
 
 
 class KeyDetial(generics.RetrieveAPIView):

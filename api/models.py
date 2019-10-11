@@ -6,7 +6,7 @@ from django.db import models
 class KeyModel(models.Model):
     owner = models.ForeignKey(
         'auth.User', related_name='Key', on_delete=models.CASCADE)
-    asymmetric_alg = models.CharField(default='RSA', max_length=32)
+    asymmetric = models.CharField(default='RSA', max_length=32)
     bits = models.IntegerField(default=2048)
     key_type = models.CharField(default='PEM', max_length=3)
     key_private = models.TextField()
