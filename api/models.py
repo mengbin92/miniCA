@@ -15,6 +15,9 @@ class KeyModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     used = models.BooleanField(default=False)
 
+    class Mate:
+        ordering = ('-created',)
+
 
 class CSRModel(models.Model):
     owner = models.ForeignKey(
@@ -35,6 +38,9 @@ class CSRModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     signed = models.BooleanField(default=False)
 
+    class Mate:
+        ordering = ('-created',)
+
 
 class CertificateModel(models.Model):
     owner = models.ForeignKey(
@@ -47,6 +53,9 @@ class CertificateModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     valid = models.BooleanField(default=True)
 
+    class Mate:
+        ordering = ('-created',)
+
 
 class CRLModel(models.Model):
     owner = models.ForeignKey(
@@ -54,3 +63,6 @@ class CRLModel(models.Model):
     serial = models.CharField(max_length=64)
     reason = models.CharField(max_length=256)
     signed = models.BooleanField(default=False)
+
+    class Mate:
+        ordering = ('-created',)

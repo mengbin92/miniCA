@@ -5,11 +5,21 @@ from cryptography.hazmat.primitives import serialization,hashes
 from cryptography.hazmat.primitives.asymmetric import ec,rsa
 import datetime
 
-def generatekey(keytype,bits):
+def generatekey(keytype,bits,pwd):
     if keytype == 'rsa' or keytype == 'RSA':
-        return rsa.generate_private_key(65537,bits,default_backend())
+        key = rsa.generate_private_key(65537,bits,default_backend())
     elif keytype == 'ec' or keytype == 'EC':
-        return ec.generate_private_key(ec.SECP521R1(),default_backend())
+        key = ec.generate_private_key(ec.SECP521R1(),default_backend())
+    private_key = key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.BestAvailableEncryption(pwd)
+    )
+    public_key = key.public_key().public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    )
+    return private_key,public_key
 
 def createCSR(key,common,country,locality,province,organization,organizationunit,email):
     csr = x509.CertificateSigningRequestBuilder().subject_name(x509.Name([
